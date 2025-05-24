@@ -35,7 +35,3 @@ if (conversionDirection === "ToRials") {
 }
 ```
 
-### Source
-
-stack overflow
-copilot[claude sonnet]
