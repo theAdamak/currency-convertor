@@ -1,54 +1,41 @@
-# React + TypeScript + Vite
+# Currency Converter (Dollar to Toman)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based currency converter application that allows users to convert between US Dollars and Iranian Toman with real-time updates and formatted number display.
 
-Currently, two official plugins are available:
+## Data Flow
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The application follows a simple unidirectional data flow:
 
-## Expanding the ESLint configuration
+1. **User Input**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+   - Users can input amounts in either USD or Toman
+   - Input is handled by the `CurrencyInput` component
+   - Users can toggle conversion direction (USD → Toman or Toman → USD)
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+2. **State Management**
+
+   ```typescript
+   const [dollars, setDollars] = useState<number>(0);
+   const [rials, setRials] = useState<number>(0);
+   const [conversionDirection, setConversionDirection] =
+     useState<ConversionDirection>("ToRials");
+   ```
+
+3. **Conversion Process**
+
+Conversion is triggered by the "Convert" button
+Uses a constant exchange rate defined in util/constants.ts
+Conversion logic:
+
+```typescript
+if (conversionDirection === "ToRials") {
+  setRials(dollars * EXCHANGE_RATE);
+} else {
+  setDollars(rials / EXCHANGE_RATE);
+}
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Source
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+stack overflow
+copilot[claude sonnet]
